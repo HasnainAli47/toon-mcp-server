@@ -9,17 +9,17 @@
  
  import asyncio
  
- from mcp.server import Server
- from mcp.server.stdio import stdio_server
- 
- from .codec import json_to_toon, toon_to_json, system_prompt_to_toon
- 
- 
- server = Server("toon-mcp-server")
- 
- 
- @server.tool()
- async def convert_json_to_toon(payload: dict) -> str:
+from mcp.server import Server
+from mcp.server.stdio import stdio_server
+
+from .codec import json_to_toon, toon_to_json, system_prompt_to_toon
+
+
+server = Server("toon-mcp-server")
+
+
+@server.tool()
+async def convert_json_to_toon(payload: object) -> str:
      """
      Convert JSON-compatible data into TOON text.
  
@@ -27,13 +27,18 @@
      ----------
      payload:
          Any JSON-serialisable structure (usually provided by the MCP host).
-     """
- 
-     return json_to_toon(payload)
- 
- 
- @server.tool()
- async def convert_toon_to_json(toon_text: str):
+    """
+
+    try:
+        return json_to_toon(payload)
+    except (TypeError, ValueError) as exc:
+        # Tool error messages should be explicit so the MCP host can surface
+        # them directly to the user.
+        raise ValueError(f"convert_json_to_toon: {exc}") from exc
+
+
+@server.tool()
+async def convert_toon_to_json(toon_text: object):
      """
      Convert TOON text back into JSON-compatible data.
  
@@ -41,13 +46,18 @@
      ----------
      toon_text:
          String containing TOON-formatted data.
-     """
- 
-     return toon_to_json(toon_text)
- 
- 
- @server.tool()
- async def convert_system_prompt_to_toon(prompt: str) -> str:
+    """
+
+    try:
+        # The codec layer will validate that this is a string and raise
+        # a clear error if not.
+        return toon_to_json(toon_text)  # type: ignore[arg-type]
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"convert_toon_to_json: {exc}") from exc
+
+
+@server.tool()
+async def convert_system_prompt_to_toon(prompt: object) -> str:
      """
      Convert a plain system prompt string into TOON format.
  
@@ -55,9 +65,12 @@
      ----------
      prompt:
          The system prompt text to be wrapped in a minimal TOON document.
-     """
- 
-     return system_prompt_to_toon(prompt)
+    """
+
+    try:
+        return system_prompt_to_toon(prompt)  # type: ignore[arg-type]
+    except TypeError as exc:
+        raise ValueError(f"convert_system_prompt_to_toon: {exc}") from exc
  
  
  async def _run() -> None:

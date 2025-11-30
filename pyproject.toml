@@ -10,7 +10,7 @@
  requires-python = ">=3.9"
  license = { text = "MIT" }
  authors = [
-   { name = "Your Name", email = "you@example.com" },
+   { name = "HasnainAli", email = "codingwithhasnain@gmail.com" },
  ]
  classifiers = [
    "Programming Language :: Python :: 3",
@@ -33,9 +33,9 @@
  ]
 
  [project.urls]
- Homepage = "https://github.com/yourname/toon-mcp-server"
- Source = "https://github.com/yourname/toon-mcp-server"
- Issues = "https://github.com/yourname/toon-mcp-server/issues"
+ Homepage = "https://github.com/HasnainAli47/toon-mcp-server"
+ Source = "https://github.com/HasnainAli47/toon-mcp-server"
+ Issues = "https://github.com/HasnainAli47/toon-mcp-server/issues"
 
  [project.scripts]
  toon-mcp-server = "toon_mcp.server:main"

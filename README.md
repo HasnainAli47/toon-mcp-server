@@ -229,6 +229,32 @@
  You are encouraged to add more tests for your specific use‑cases and data shapes.
  
  ---
+
+## Error handling
+
+The library and MCP tools are defensive and will give **clear, explicit errors** when misused:
+
+- **`json_to_toon` / `convert_json_to_toon`**
+  - Expect a **JSON‑serialisable object** (dict, list, str, int, float, bool, or None).
+  - If the object cannot be serialised, they raise **`TypeError`** with a message explaining what type failed and why.
+  - If `indent` is not an integer or `None`, a **`TypeError`** is raised describing the wrong type.
+
+- **`toon_to_json` / `convert_toon_to_json`**
+  - Expect a **string containing TOON data**.
+  - If a non‑string value is passed, they raise **`TypeError`**.
+  - If the TOON text is invalid, they raise **`ValueError`** with the underlying parse error message attached.
+
+- **`system_prompt_to_toon` / `convert_system_prompt_to_toon`**
+  - Expect a **plain string system prompt**.
+  - If a non‑string value is passed, they raise **`TypeError`** (wrapped as a `ValueError` at MCP layer) with a message describing the incorrect type.
+
+- **`toon_to_system_prompt`**
+  - Expects TOON text whose decoded structure is a mapping with a `system_prompt` field of type string.
+  - Raises **`TypeError`** or **`KeyError`** if the structure does not match this expectation, with an error message explaining exactly what was wrong.
+
+These messages are designed to surface nicely in both direct Python usage and when the tools are called through an MCP host.
+
+---
  
  ## Versioning
  
