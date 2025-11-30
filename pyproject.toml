@@ -1,0 +1,43 @@
+ [build-system]
+ requires = ["setuptools>=64", "wheel"]
+ build-backend = "setuptools.build_meta"
+
+ [project]
+ name = "toon-mcp-server"
+ version = "0.1.0"
+ description = "An MCP server and utilities for converting JSON and system prompts to TOON format and back."
+ readme = "README.md"
+ requires-python = ">=3.9"
+ license = { text = "MIT" }
+ authors = [
+   { name = "Your Name", email = "you@example.com" },
+ ]
+ classifiers = [
+   "Programming Language :: Python :: 3",
+   "Programming Language :: Python :: 3 :: Only",
+   "Programming Language :: Python :: 3.9",
+   "Programming Language :: Python :: 3.10",
+   "Programming Language :: Python :: 3.11",
+   "Programming Language :: Python :: 3.12",
+   "License :: OSI Approved :: MIT License",
+   "Operating System :: OS Independent",
+   "Intended Audience :: Developers",
+   "Topic :: Software Development :: Libraries",
+   "Topic :: Scientific/Engineering :: Artificial Intelligence",
+ ]
+ keywords = ["mcp", "model-context-protocol", "toon", "llm", "serialization"]
+ dependencies = [
+   "toons>=0.1.0",
+   "mcp>=0.1.0",
+   "typing-extensions>=4.0.0",
+ ]
+
+ [project.urls]
+ Homepage = "https://github.com/yourname/toon-mcp-server"
+ Source = "https://github.com/yourname/toon-mcp-server"
+ Issues = "https://github.com/yourname/toon-mcp-server/issues"
+
+ [project.scripts]
+ toon-mcp-server = "toon_mcp.server:main"
+
+
