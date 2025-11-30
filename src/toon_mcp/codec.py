@@ -135,37 +135,4 @@ def system_prompt_to_toon(prompt: str) -> str:
     return json_to_toon(payload)
 
 
-def toon_to_system_prompt(text: str) -> str:
-    """
-    Extract a system prompt from TOON text produced by :func:`system_prompt_to_toon`.
-
-    Parameters
-    ----------
-    text:
-        TOON-formatted string previously created by :func:`system_prompt_to_toon`,
-        or a compatible structure that contains a ``system_prompt`` field.
-
-    Returns
-    -------
-    str
-        The system prompt text.
-
-    Raises
-    ------
-    KeyError
-        If the decoded structure does not contain a ``system_prompt`` key.
-    TypeError
-        If the decoded structure is not a mapping or the `system_prompt` field is not a string.
-    """
-
-    obj = toon_to_json(text)
-    if not isinstance(obj, dict):
-        raise TypeError("Expected TOON structure to decode to a mapping with 'system_prompt' key.")
-    if "system_prompt" not in obj:
-        raise KeyError("Decoded TOON structure does not contain a 'system_prompt' field.")
-    value = obj["system_prompt"]
-    if not isinstance(value, str):
-        raise TypeError("Field 'system_prompt' is not a string in decoded TOON structure.")
-    return value
-
 

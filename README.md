@@ -53,14 +53,13 @@
  
  The main public API lives in `toon_mcp` and is re‑exported from `__init__.py` for convenience.
  
- ```python
- from toon_mcp import (
-     json_to_toon,
-     toon_to_json,
-     system_prompt_to_toon,
-     toon_to_system_prompt,
- )
- ```
+```python
+from toon_mcp import (
+    json_to_toon,
+    toon_to_json,
+    system_prompt_to_toon,
+)
+```
  
  ### JSON → TOON
  
@@ -123,20 +122,6 @@
  ```
  
  but in TOON form, which tends to be more compact than raw JSON for larger prompts.
- 
- ### TOON → system prompt
- 
- ```python
- from toon_mcp import toon_to_system_prompt
- 
- original_prompt = toon_to_system_prompt(toon_prompt)
- assert original_prompt == system_prompt
- ```
- 
- - **Input**: TOON text that was produced by `system_prompt_to_toon`.
- - **Output**: The original system prompt string.
- 
- ---
  
  ## MCP Server
  
@@ -206,9 +191,9 @@
  ## Design Notes
  
  - **Official TOON implementation**: This project deliberately delegates TOON parsing and serialisation to the `toons` library, which is implemented in Rust and mirrors the standard `json` module API. This keeps the implementation small, predictable, and performant.
- - **Simple, explicit API**:
-   - `json_to_toon` / `toon_to_json` operate on arbitrary JSON‑serialisable structures.
-   - `system_prompt_to_toon` / `toon_to_system_prompt` focus on the system prompt use‑case, keeping the structure obvious (`{"system_prompt": ...}`) while benefitting from TOON syntax.
+- **Simple, explicit API**:
+  - `json_to_toon` / `toon_to_json` operate on arbitrary JSON‑serialisable structures.
+  - `system_prompt_to_toon` focuses on the system prompt use‑case, keeping the structure obvious (`{"system_prompt": ...}`) while benefitting from TOON syntax.
  - **MCP first‑class**: The MCP server is implemented once, in `toon_mcp.server`, and exported through the `toon-mcp-server` console script so hosts can launch it easily.
  
  ---
@@ -221,10 +206,9 @@
  pytest
  ```
  
- Basic tests cover:
- 
- - Round‑trip JSON → TOON → JSON.
- - Round‑trip system prompt → TOON → system prompt.
+Basic tests cover:
+
+- Round‑trip JSON → TOON → JSON.
  
  You are encouraged to add more tests for your specific use‑cases and data shapes.
  
@@ -247,10 +231,6 @@ The library and MCP tools are defensive and will give **clear, explicit errors**
 - **`system_prompt_to_toon` / `convert_system_prompt_to_toon`**
   - Expect a **plain string system prompt**.
   - If a non‑string value is passed, they raise **`TypeError`** (wrapped as a `ValueError` at MCP layer) with a message describing the incorrect type.
-
-- **`toon_to_system_prompt`**
-  - Expects TOON text whose decoded structure is a mapping with a `system_prompt` field of type string.
-  - Raises **`TypeError`** or **`KeyError`** if the structure does not match this expectation, with an error message explaining exactly what was wrong.
 
 These messages are designed to surface nicely in both direct Python usage and when the tools are called through an MCP host.
 

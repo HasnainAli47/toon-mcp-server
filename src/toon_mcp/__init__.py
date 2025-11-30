@@ -11,14 +11,12 @@ from .codec import (
     json_to_toon,
     toon_to_json,
     system_prompt_to_toon,
-    toon_to_system_prompt,
 )
 
 __all__ = [
     "json_to_toon",
     "toon_to_json",
     "system_prompt_to_toon",
-    "toon_to_system_prompt",
 ]
 
 
